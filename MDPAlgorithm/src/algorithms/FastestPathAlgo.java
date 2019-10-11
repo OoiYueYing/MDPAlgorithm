@@ -314,7 +314,7 @@ public class FastestPathAlgo {
         }
 
         System.out.println("\n");
-        if (!bot.getRealBot() || explorationMode) {
+        if (!bot.getRealBot()) {
             for (MOVEMENT x : movements) {
                 if (x == MOVEMENT.FORWARD) {
                     if (!canMoveForward()) {
@@ -342,6 +342,12 @@ public class FastestPathAlgo {
                         bot.moveForwardMultiple(fCount);
                         fCount = 0;
                         exploredMap.repaint();
+                        // During exploration, use sensor data to update exploredMap.
+                        if (explorationMode) {
+                            bot.setSensors();
+                            bot.sense(this.exploredMap, this.realMap);
+                            this.exploredMap.repaint();
+                        }
                     }
                 } else if (x == MOVEMENT.RIGHT || x == MOVEMENT.LEFT) {
 
@@ -352,10 +358,22 @@ public class FastestPathAlgo {
                         bot.moveForwardMultiple(fCount);
                         fCount = 0;
                         exploredMap.repaint();
+                        // During exploration, use sensor data to update exploredMap.
+                        if (explorationMode) {
+                            bot.setSensors();
+                            bot.sense(this.exploredMap, this.realMap);
+                            this.exploredMap.repaint();
+                        }
                     }
 
                     bot.move(x);
                     exploredMap.repaint();
+                    // During exploration, use sensor data to update exploredMap.
+                    if (explorationMode) {
+                        bot.setSensors();
+                        bot.sense(this.exploredMap, this.realMap);
+                        this.exploredMap.repaint();
+                    }
                 }
             }
 
@@ -363,6 +381,12 @@ public class FastestPathAlgo {
             if (fCount > 0) {
                 bot.moveForwardMultiple(fCount);
                 exploredMap.repaint();
+                // During exploration, use sensor data to update exploredMap.
+                if (explorationMode) {
+                    bot.setSensors();
+                    bot.sense(this.exploredMap, this.realMap);
+                    this.exploredMap.repaint();
+                }
             }
         }
 
