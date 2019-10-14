@@ -131,8 +131,12 @@ public class Sensor {
             exploredMap.getCell(row, col).setIsExplored(true);
 
             //if sensor detects something at distance i within the lower range and upper range
-            //set obstsacle cell
+            //set obstacle cell
             if (sensorVal == i) {
+                //if long range sensor is updating the value of cells that are explored, dont update
+                if(exploredMap.getCell(row, col).getIsExplored() && id.equals("LRL")){
+                    break;
+                }
                 exploredMap.setObstacleCell(row, col, true);
                 break;
             }
